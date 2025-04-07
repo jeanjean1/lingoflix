@@ -1,0 +1,60 @@
+@startuml
+participant User
+participant Webpage
+participant Backend
+participant SubtitlesOT
+participant AnkiConnect
+
+User -> Webpage: Select card deck
+activate Webpage
+Webpage ->> Backend: Request deck flashcards
+activate Backend
+Backend ->> AnkiConnect: Fetch front (Kanji) and ID of all flashcards
+AnkiConnect -> Backend: Return query result
+Backend -> Webpage: return flashcards info
+deactivate Backend
+deactivate Webpage
+
+
+User -> Webpage: Select flashcard
+activate Webpage
+Webpage ->> Backend: Request flashcard from selected deck
+
+
+
+activate Backend
+Backend ->> AnkiConnect: Fetch a flashcard
+activate AnkiConnect
+AnkiConnect -> Backend: Return flashcard data
+deactivate AnkiConnect
+
+Backend ->> SubtitlesOT: Request subtitles using Kanji
+activate SubtitlesOT
+SubtitlesOT -> Backend: Return video URLs
+deactivate SubtitlesOT
+
+Backend -> Webpage: Send flashcard & video options
+deactivate Backend
+deactivate Webpage
+
+User -> Webpage: View flashcard and select a video
+activate Webpage
+Webpage ->> Backend: Save selected video to flashcard
+
+activate Backend
+Backend ->> AnkiConnect: Update flashcard with selected video
+activate AnkiConnect
+AnkiConnect -> Backend: Confirm update
+deactivate AnkiConnect
+Backend -> Webpage: Confirm update
+deactivate Webpage
+deactivate Backend
+
+User -> Webpage: Click "Continue"
+activate Webpage
+Webpage ->> Backend: Request next flashcard
+deactivate Webpage
+
+
+
+@enduml

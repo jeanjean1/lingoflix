@@ -1,0 +1,49 @@
+@startuml
+
+
+' ' Collect Market data (fetch & store) ----- 
+' Mercari.fetch
+' Jimoti.fetch
+' YahooAuc.fetch
+
+
+' class SubtitlesRepository {
+' }
+
+' class SubsOT {
+'     +Fetch(): void
+' }
+
+' class SubtitlesDB {
+'     +Fetch(): void
+' }
+
+' class Flashcard{
+
+' }
+
+
+
+SubtitlesRepository <|-- FilmOT
+SubtitlesRepository <|-- SubtitlesDB
+FlashcardRepository <|-.- Flashcard
+
+FlashcardRepository <|-- WaniKani
+FlashcardRepository <|-- Bunpro 
+FlashcardRepository <|-- Anki
+
+@enduml
+
+' All classes/marketplaces will have different information
+' in their "listings". Or no ?
+' 
+' 
+' - post date
+' - product
+' - price
+' - sold date
+' - delivery
+' - location
+' - seller
+' 
+' 
