@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Search Page</title>
+</head>
+<body>
+    <h1>Search a deck</h1>
+
+    <input type="text" id="searchInput" placeholder="Enter your deck name" />
+    <button onclick="search()">Search</button>
+
+    <ul id="results"></ul>
+
+    <script>
+        function search() {
+            const deckname = document.getElementById("searchInput").value;
+            const resultsList = document.getElementById("results");
+            if (!deckname.trim()) {
+                resultsList.innerHTML = "<li>Please enter a deck name.</li>";
+                return;
+            }
+            // Send a GET request to the /api/search endpoint with the word as a query parameter
+            fetch(`/api/getDeckCards/${encodeURIComponent(deckname)}`)
+             // Parse the response as JSON
+                .then(res => res.json())
+                // Once we have the data, handle it here
+                .then(data => {
+                    // Clear any previous search results
+                    resultsList.innerHTML = "";
+                    // Loop through the results array from the server
+                    data.results.forEach(card => {
+                        // Create a new <li> element
+                        const li = document.createElement("li");
+                        // Set the inner HTML to a link using the item's title and URL
+                        li.innerHTML = `<strong>${card.front}</strong>: ${card.back}`;
+                        // Add the <li> to the results list on the page
+                        resultsList.appendChild(li);
+                    });
+                    console.log(data.results);
+                })
+                .catch(err => {
+                    resultsList.innerHTML = "<li>Error fetching deck.</li>";
+                    console.error(err);
+                });
+        }
+    </script>
+</body>
+</html>
