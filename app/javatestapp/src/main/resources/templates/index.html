@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dictionary Lookup</title>
+</head>
+<body>
+<h2>Enter a Word:</h2>
+<form action="/search" method="get">
+    <input type="text" name="word" required>
+    <button type="submit">Search</button>
+</form>
+
+<div th:if="${word}">
+    <h3>Results for "<span th:text="${word}"></span>":</h3>
+    <pre th:text="${definition}"></pre>
+</div>
+
+<div th:if="${error}">
+    <p style="color: red;" th:text="${error}"></p>
+</div>
+</body>
+</html>
